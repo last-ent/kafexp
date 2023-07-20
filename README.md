@@ -13,7 +13,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"kafexp"
 	"github.com/kelseyhightower/envconfig"
 	"sync"
 	"os/signal"
@@ -21,6 +20,8 @@ import (
 	"log"
 	"syscall"
 	"os"
+
+	"kafexp" // "github.com/last-ent/kafexp"
 )
 
 func main() {
@@ -88,5 +89,52 @@ func main() {
 	
 }
 
+
+```
+
+## As a standalone service
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"github.com/kelseyhightower/envconfig"
+	"go.uber.org/zap"
+	"kafexp" // "github.com/last-ent/kafexp"
+)
+
+func main() {
+
+	// Kafka ConsumerGroup setup
+	var cfg kafexp.Config
+	err := envconfig.Process("", &cfg)
+	if err != nil {
+		panic(fmt.Sprintf("failed to initialize logger %q", err))
+	}
+
+	logger, err := kafexp.GetZapLogger(cfg.Env)
+	if err != nil {
+		panic(fmt.Sprintf("failed to initialize logger %q", err))
+	}
+
+	processor := myProcessor{logger: logger}
+	kafexp.StartConsumerGroupAsService(cfg, processor)
+}
+
+type myProcessor struct {
+	logger *zap.Logger
+}
+
+func (p *myProcessor) Process(ctx context.Context, m *kafexp.RawMessage) error {
+	// Do logic
+	kafexp.Instrument(ctx, m, "success", p.logger)
+	return nil
+}
+
+func (_ *myProcessor) HandleError(_ *kafexp.RawMessage, _ error) error {
+	return nil
+}
 
 ```

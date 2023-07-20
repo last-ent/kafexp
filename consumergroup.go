@@ -13,12 +13,11 @@ import (
 // It also provides hooks for your consumer group session life-cycle and allow you to
 // trigger logic before or after the consume loop(s).
 type ConsumerGroup struct {
-	db           *sql.DB
-	consumer     sarama.ConsumerGroup
-	processor    Processor
-	topics       []string
-	logger       *zap.Logger
-	errorHandler ErrorHandler
+	db        *sql.DB
+	consumer  sarama.ConsumerGroup
+	processor Processor
+	topics    []string
+	logger    *zap.Logger
 }
 
 // Setup (from Sarama docs) is run at the beginning of a new session, before ConsumeClaim,
@@ -111,7 +110,7 @@ func (c *ConsumerGroup) ConsumeClaim(session sarama.ConsumerGroupSession, claim 
 				if err != nil {
 					c.logger.Error("error occurred while consuming legacy subscription message", zap.Error(err))
 
-					err = c.errorHandler.HandleError(msg, err)
+					err = c.processor.HandleError(msg, err)
 					if err != nil {
 						c.logger.Error("failed to handle error", zap.Error(err))
 					}

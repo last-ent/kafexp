@@ -18,9 +18,10 @@ type RawMessage struct {
 	Offset    int64
 }
 
-// Processor interface that any processor needs to satisfy
+// Processor interface that a processor needs to satisfy
 type Processor interface {
 	Process(ctx context.Context, msg *RawMessage) error
+	HandleError(message *RawMessage, err error) error
 }
 
 func NewPrintProcessor(logger *zap.Logger) Processor {
@@ -33,5 +34,9 @@ type printProcessor struct {
 
 func (p *printProcessor) Process(_ context.Context, msg *RawMessage) error {
 	p.logger.Info(fmt.Sprintf("Consumed message: %#v", msg))
+	return nil
+}
+
+func (_ *printProcessor) HandleError(_ *RawMessage, _ error) error {
 	return nil
 }
