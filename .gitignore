@@ -1,0 +1,7 @@
+dist/
+.env.*
+build/
+coverage.txt
+.idea/
+.env
+.DS_Store
