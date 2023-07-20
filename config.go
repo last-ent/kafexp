@@ -71,3 +71,8 @@ func setupSarama(cfg Config, logger *log.Logger) Config {
 	cfg.Sarama = saramaConfig
 	return cfg
 }
+
+// NewKConfig returns
+func NewKConfig(cfg Config, logger *log.Logger) Config {
+	return setupSarama(cfg, logger)
+}

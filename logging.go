@@ -5,8 +5,8 @@ import (
 	"log"
 )
 
-// GetLogger returns a zap logger based on the given environment.
-func GetLogger(env string) (*zap.Logger, error) {
+// GetZapLogger returns a zap logger based on the given environment.
+func GetZapLogger(env string) (*zap.Logger, error) {
 	switch env {
 	case "live":
 		return zap.NewProduction()
@@ -21,10 +21,10 @@ func GetLogger(env string) (*zap.Logger, error) {
 	}
 }
 
-// getStdLogger returns a logger based on the given environment.
+// GetStdLogger returns a logger based on the given environment.
 // Required interface for Sarama client.
-func getStdLogger(env string) (*log.Logger, error) {
-	lg, err := GetLogger(env)
+func GetStdLogger(env string) (*log.Logger, error) {
+	lg, err := GetZapLogger(env)
 	if err != nil {
 		return nil, err
 	}

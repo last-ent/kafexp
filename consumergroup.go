@@ -67,7 +67,7 @@ func (c *ConsumerGroup) Start(ctx context.Context, errChan chan error) {
 // NewConsumerGroup is the constructor function for ConsumerGroup
 // The consumers join the group and is assigned their "fair share" of partitions, aka 'claims'
 func NewConsumerGroup(cfg Config, pr Processor, logger *zap.Logger) (*ConsumerGroup, error) {
-	stdLogger, err := getStdLogger(cfg.Env)
+	stdLogger, err := GetStdLogger(cfg.Env)
 	if err != nil {
 		logger.Warn("failed to setup ConsumerGroup logger", zap.Error(err))
 	}

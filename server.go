@@ -21,7 +21,7 @@ import (
 )
 
 func StartConsumerGroupAsService(cfg Config, processor Processor) {
-	logger, err := GetLogger(cfg.Env)
+	logger, err := GetZapLogger(cfg.Env)
 	routes, err := initRoutes(cfg)
 	if err != nil {
 		logger.Fatal("failed to setup routes", zap.Error(err))
