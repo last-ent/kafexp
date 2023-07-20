@@ -138,3 +138,13 @@ func (_ *myProcessor) HandleError(_ *kafexp.RawMessage, _ error) error {
 }
 
 ```
+
+## Dependencies
+
+* Shopify's Sarama
+* `zap` for logger
+* hellofresh's health-go
+* opencensus
+* `errors` package
+* go-chi (if you plan to use Kafka as a standalone service)
+
