@@ -3,7 +3,8 @@ package kafexp
 import (
 	"context"
 	"database/sql"
-	"github.com/Shopify/sarama"
+
+	"github.com/IBM/sarama"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
 )

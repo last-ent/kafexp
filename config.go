@@ -3,9 +3,10 @@ package kafexp
 import (
 	"crypto/tls"
 	"crypto/x509"
-	"github.com/Shopify/sarama"
 	"log"
 	"time"
+
+	"github.com/IBM/sarama"
 )
 
 // kafkaOffsetEarliest stands for the log head offset, i.e. the offset that will be
